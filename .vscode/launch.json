@@ -8,7 +8,7 @@
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/main",
+            "program": "/home/thanhpham25/PersonalProject/C_C++_Projects/Write-a-hash-table/build/main",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",

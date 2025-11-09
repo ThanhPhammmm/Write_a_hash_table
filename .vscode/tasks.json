@@ -4,12 +4,15 @@
         {
             "label": "Build Hash Table",
             "type": "shell",
-            "command": "g++",
+            "command": "gcc",
             "args": [
-                "-g",
-                "/home/thanhpham25/PersonalProject/C_C++_Projects/Write-a-hash-table/src/*.cpp",
+                "-g",                           // debug symbols
+                "-O0",                          // tắt tối ưu hóa
+                "-Wall",                        // cảnh báo đầy đủ
+                "/home/thanhpham25/PersonalProject/C_C++_Projects/Write-a-hash-table/src/*.c",   // tất cả file C
                 "-o",
-                "/home/thanhpham25/PersonalProject/C_C++_Projects/Write-a-hash-table/build/main"
+                "/home/thanhpham25/PersonalProject/C_C++_Projects/Write-a-hash-table/build/main",
+                "-lm"
             ],
             "group": {
                 "kind": "build",

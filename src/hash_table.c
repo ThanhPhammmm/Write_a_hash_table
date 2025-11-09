@@ -33,6 +33,8 @@ static void* xcalloc(size_t n, size_t s){
 }
 
 /* ---------- HASH FUNCTIONS ---------- */
+static ht_item HT_DELETED_ITEM = {NULL, NULL};
+
 static int ht_hash(const char* s, const int a, const int m){
     long hash = 0;
     const int len_s = strlen(s);
@@ -111,8 +113,12 @@ void ht_insert(ht_hash_table* ht, const char* key, const char* value){
         ht->count++;
         return;
     }
+    printf("== When count is %d ==\n", ht->count);
+    printf("== Time for resize up from %d ==\n", ht->size);
 
-    ht_resize_up(ht); // nếu có resize logic
+    //resize len neu het cho de them
+    ht_resize_up(ht);
+    ht_insert(ht, key, value);
 }
 
 char* ht_search(ht_hash_table* ht, const char* key){
@@ -154,9 +160,15 @@ void ht_delete(ht_hash_table* ht, const char* key){
             ht_del_item(item);
             ht->items[index] = &HT_DELETED_ITEM;
             ht->count--;
+
+            // Resize xuống nếu load factor quá thấp
+            const int load = ht->count * 100 / ht->size;
+            if (load < 25) {
+                ht_resize_down(ht);
+            }
+
             return;
         }
-
         i++;
     }
 }
@@ -187,10 +199,14 @@ static void ht_resize(ht_hash_table* ht, const int base_size){
     ht_del_hash_table(new_ht);
 }
 
-static void ht_resize_up(ht_hash_table* ht){
+void ht_resize_up(ht_hash_table* ht){
     ht_resize(ht, ht->base_size * 2);
+    printf("== Resized up ==\n");
+    printf("== Current size of hash table: %d ==\n", ht->size);
 }
 
-static void ht_resize_down(ht_hash_table* ht){
+void ht_resize_down(ht_hash_table* ht){
     ht_resize(ht, ht->base_size / 2);
+    printf("== Resized down ==\n");
+    printf("== Current size of hash table: %d ==\n", ht->size);
 }
