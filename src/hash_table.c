@@ -124,12 +124,11 @@ char* ht_search(ht_hash_table* ht, const char* key) {
     int index;
     ht_item* item;
 
-    while (i < ht->size) {  // giới hạn probing
+    while (i < ht->size) {
         index = ht_get_hash(key, ht->size, i);
         item = ht->items[index];
 
         if (item == NULL) {
-            // chưa tìm thấy, dừng probing
             return NULL;
         }
 
